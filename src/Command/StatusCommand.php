@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\StatusCommand as DoctrineStatusCommand;
 
-class StatusCommand extends AbstractDoctrineCommand
+class StatusCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

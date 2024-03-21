@@ -1,25 +1,25 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
-use Oscmarb\Bundle\MigrationsMultipleDatabase\DependencyInjection\Configuration\Configuration;
+use Oscmarb\MigrationsMultipleDatabase\Bundle\DependencyInjection\DependencyFactoryLoader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class AbstractDoctrineCommand extends Command
+abstract class AbstractCommand extends Command
 {
     public const SUCCESS = 0;
 
     /**
-     * @var Configuration
+     * @var DependencyFactoryLoader
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(DependencyFactoryLoader $configuration)
     {
         $this->configuration = $configuration;
 

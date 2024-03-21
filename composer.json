@@ -24,7 +24,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Oscmarb\\Bundle\\MigrationsMultipleDatabase\\": "src/"
+			"Oscmarb\\MigrationsMultipleDatabase\\": "src/"
 		}
 	}
 }

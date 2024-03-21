@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\DependencyInjection;
+namespace Oscmarb\MigrationsMultipleDatabase\Bundle\DependencyInjection;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
@@ -83,7 +83,7 @@ class DoctrineMigrationsMultipleDatabaseExtension extends DoctrineMigrationsExte
         $configuration->addMethodCall('setCheckDatabasePlatform', [$connection['check_database_platform']]);
 
         $container
-            ->getDefinition('doctrine.migrations_multiple_database.configuration')
+            ->getDefinition('doctrine.migrations_multiple_database.loader')
             ->addMethodCall('addDependencyFactory', [$name, new Reference(sprintf('doctrine.migrations_multiple_database.%s_entity_manager.dependency_factory', $name))]);
 
         foreach ($connection['services'] as $doctrineId => $symfonyId) {

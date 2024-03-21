@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand as DoctrineSyncMetadataCommand;
 
-class SyncMetadataCommand extends AbstractDoctrineCommand
+class SyncMetadataCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\DependencyInjection;
+namespace Oscmarb\MigrationsMultipleDatabase\Bundle\DependencyInjection;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\Configuration as DoctrineMigrationsConfiguration;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -17,7 +17,8 @@ class Configuration extends DoctrineMigrationsConfiguration implements Configura
         $entityManagersNodeDefinition = $treeBuilder
             ->getRootNode()
             ->children()
-            ->arrayNode('entity_managers');
+            ->arrayNode('entity_managers')
+            ->arrayPrototype();
 
         $doctrineRootNode = parent::getConfigTreeBuilder()->getRootNode();
 
@@ -26,7 +27,11 @@ class Configuration extends DoctrineMigrationsConfiguration implements Configura
         }
 
         foreach ($doctrineRootNode->getChildNodeDefinitions() as $childNodeDefinition) {
-            if ('em' === $childNodeDefinition->getNode()->getName()) {
+            $reflectionNodeDefinition = new \ReflectionClass($childNodeDefinition);
+            $nameProperty = $reflectionNodeDefinition->getProperty('name');
+            $name = $nameProperty->getValue($childNodeDefinition);
+
+            if ('em' === $name) {
                 continue;
             }
 

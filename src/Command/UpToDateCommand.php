@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand as DoctrineUpToDateCommand;
 
-class UpToDateCommand extends AbstractDoctrineCommand
+class UpToDateCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

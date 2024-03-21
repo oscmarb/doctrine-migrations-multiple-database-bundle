@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\DependencyInjection\Configuration;
+namespace Oscmarb\MigrationsMultipleDatabase\Bundle\DependencyInjection;
 
 use Doctrine\Migrations\DependencyFactory;
 
-class Configuration
+class DependencyFactoryLoader
 {
     /** @var array<string, DependencyFactory> */
     private $dependencyFactories = [];

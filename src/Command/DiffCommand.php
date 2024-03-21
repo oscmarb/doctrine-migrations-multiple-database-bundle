@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand as DoctrineDiffCommand;
 
-class DiffCommand extends AbstractDoctrineCommand
+class DiffCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

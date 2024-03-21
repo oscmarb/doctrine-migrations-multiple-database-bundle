@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\DumpSchemaCommand as DoctrineDumpSchemaCommand;
 
-class DumpSchemaCommand extends AbstractDoctrineCommand
+class DumpSchemaCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

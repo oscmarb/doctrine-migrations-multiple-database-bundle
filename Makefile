@@ -25,7 +25,7 @@ composer-update: ## Update composer dependencies
 		docker run --rm -v .:/app doctrine_migrations composer update
 
 phpstan: ## Run PHPStan
-		docker run --rm -v ${PWD}:/app ghcr.io/phpstan/phpstan analyse ./src -l 9
+		docker run --rm -v ${PWD}:/app ghcr.io/phpstan/phpstan analyse ./src
 
 fix-cs: ## Fix code standards
 		docker run --rm -v ${PWD}:/data cytopia/php-cs-fixer fix --verbose --show-progress=dots --rules=@Symfony,-@PSR2 -- src

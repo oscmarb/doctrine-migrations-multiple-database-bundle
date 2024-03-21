@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\CurrentCommand as DoctrineCurrentCommand;
 
-class CurrentCommand extends AbstractDoctrineCommand
+class ListCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

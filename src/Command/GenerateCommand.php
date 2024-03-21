@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\GenerateCommand as DoctrineGenerateCommand;
 
-class GenerateCommand extends AbstractDoctrineCommand
+class GenerateCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

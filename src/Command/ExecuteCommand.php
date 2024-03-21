@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand as DoctrineExecuteCommand;
 
-class ExecuteCommand extends AbstractDoctrineCommand
+class ExecuteCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {

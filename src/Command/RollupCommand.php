@@ -1,10 +1,10 @@
 <?php
 
-namespace Oscmarb\Bundle\MigrationsMultipleDatabase\Command\Doctrine;
+namespace Oscmarb\MigrationsMultipleDatabase\Command;
 
 use Doctrine\Migrations\Tools\Console\Command\RollupCommand as DoctrineRollupCommand;
 
-class RollupCommand extends AbstractDoctrineCommand
+class RollupCommand extends AbstractCommand
 {
     protected function commandClass(): string
     {
