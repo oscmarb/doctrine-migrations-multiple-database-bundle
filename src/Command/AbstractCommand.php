@@ -40,24 +40,67 @@ abstract class AbstractCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $rawNewInput = array_merge($input->getArguments(), $input->getOptions());
-        unset($rawNewInput['em']);
-
-        $newInput = new ArrayInput($rawNewInput);
-        $newInput->setInteractive($input->isInteractive());
-
         $em = $input->getOption('em');
 
         if (false === is_string($em) && null !== $em) {
             throw new \RuntimeException('invalid em option value');
         }
 
+        $newInput = $this->getSanitizedNewInput($input);
+
         foreach ($this->getDependencyFactories($em) as $dependencyFactory) {
             $doctrineCommand = $this->createDoctrineCommand($dependencyFactory);
-            $doctrineCommand->run($input, $output);
+            $doctrineCommand->run($newInput, $output);
         }
 
         return self::SUCCESS;
+    }
+
+    private function getSanitizedNewInput(InputInterface $input): ArrayInput
+    {
+        $definition = $this->createDoctrineCommand()->getDefinition();
+        $rawNewInput = [];
+
+        foreach ($input->getArguments() as $argumentName => $value) {
+            if ('command' === $argumentName) {
+                continue;
+            }
+
+            try {
+                $inputArgument = $definition->getArgument($argumentName);
+            } catch (\Throwable $exception) {
+                continue;
+            }
+
+            if ($inputArgument->getDefault() === $value) {
+                continue;
+            }
+
+            $rawNewInput[$argumentName] = $value;
+        }
+
+        foreach ($input->getOptions() as $optionName => $optionValue) {
+            if ('em' === $optionName) {
+                continue;
+            }
+
+            try {
+                $inputOption = $definition->getOption($optionName);
+            } catch (\Throwable $exception) {
+                continue;
+            }
+
+            if ($inputOption->getDefault() === $optionValue) {
+                continue;
+            }
+
+            $rawNewInput["--$optionName"] = $optionValue;
+        }
+
+        $newInput = new ArrayInput($rawNewInput);
+        $newInput->setInteractive($input->isInteractive());
+
+        return $newInput;
     }
 
     /**
