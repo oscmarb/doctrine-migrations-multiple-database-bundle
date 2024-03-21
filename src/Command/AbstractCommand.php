@@ -34,6 +34,8 @@ abstract class AbstractCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition($this->createDoctrineCommand()->getDefinition());
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
