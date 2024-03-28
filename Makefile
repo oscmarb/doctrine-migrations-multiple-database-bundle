@@ -35,4 +35,5 @@ validate-cs: ## Validate code standards
 
 .PHONY: tests
 tests: ## Run cs validation, PHPStan and PHPUnit
-	make ci-tests
+	make validate-cs
+	make phpstan

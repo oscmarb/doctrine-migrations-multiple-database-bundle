@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Oscmarb\MigrationsMultipleDatabase\Bundle\DependencyInjection;
 
+use Doctrine\Bundle\MigrationsBundle\Collector\MigrationsCollector;
+use Doctrine\Bundle\MigrationsBundle\Collector\MigrationsFlattener;
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
@@ -82,6 +84,10 @@ class DoctrineMigrationsMultipleDatabaseExtension extends DoctrineMigrationsExte
         $configuration->addMethodCall('setAllOrNothing', [$connection['all_or_nothing']]);
         $configuration->addMethodCall('setCheckDatabasePlatform', [$connection['check_database_platform']]);
 
+        if ($connection['enable_profiler']) {
+            $this->registerCollector($container);
+        }
+
         $container
             ->getDefinition('doctrine.migrations_multiple_database.loader')
             ->addMethodCall('addDependencyFactory', [$name, new Reference(sprintf('doctrine.migrations_multiple_database.%s_entity_manager.dependency_factory', $name))]);
@@ -140,10 +146,28 @@ class DoctrineMigrationsMultipleDatabaseExtension extends DoctrineMigrationsExte
         $bundleMetadata = $container->getParameter('kernel.bundles_metadata');
 
         if (false === is_array($bundleMetadata) || false === isset($bundleMetadata[$bundleName])) {
-            /* @var array<string, mixed> $bundleMetadata */
+            /* @phpstan-ignore-next-line */
             throw new \RuntimeException(sprintf('The bundle "%s" has not been registered, available bundles: %s', $bundleName, implode(', ', array_keys($bundleMetadata))));
         }
 
         return $bundleMetadata[$bundleName]['path'];
+    }
+
+    private function registerCollector(ContainerBuilder $container): void
+    {
+        $flattenerDefinition = new Definition(MigrationsFlattener::class);
+        $container->setDefinition('doctrine_migrations.migrations_flattener', $flattenerDefinition);
+
+        $collectorDefinition = new Definition(MigrationsCollector::class, [
+            new Reference('doctrine.migrations.dependency_factory'),
+            new Reference('doctrine_migrations.migrations_flattener'),
+        ]);
+        $collectorDefinition
+            ->addTag('data_collector', [
+                'template' => '@DoctrineMigrations/Collector/migrations.html.twig',
+                'id' => 'doctrine_migrations',
+                'priority' => '249',
+            ]);
+        $container->setDefinition('doctrine_migrations.migrations_collector', $collectorDefinition);
     }
 }
